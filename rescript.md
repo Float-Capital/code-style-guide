@@ -9,7 +9,7 @@
 7. All new components should be Jsx3 components. This is done to be able to use the latest language features.
 8. When deciding between `thing->function->function` and `function(thing)->function` read it out and pick the one that makes more sense in a natural language, i.e. `Firebase.firestore(firebase)->Firebase.root("main")` and `maybeSomething->Belt.Option.getWithDefault("definitelySomething")`
 9. Liberally simplify functions from other modules at the top of your code. Eg prefer `a->mul(b)` to `a->Ethers.BigNumber.mul(b)` by declaring it `let {mul} = module(Ethers.BigNumber)`. Re-name them to avoid collisions.
-10. When defining functions keep the types definition in the function, not in the variable, to allow more freedom for type inference, i.e. `let a = (b: string, c: int): string => b === "ok"` over `let a: ((string, int) => boolean) = (b, c) => b === "ok"`
+10. When defining functions keep the types definition in the function, not in the variable, to allow more freedom for type inference, i.e. `let a = (b: string, c: int): string => b === "ok"` over `let a: ((string, int) => boolean) = (b, c) => b === "ok"` [What's the difference between these two for the compiler?]
 11. **ALWAYS** use `Js.Array2` and `Js.String2`. **NEVER** use `Js.Array` and `Js.String`. This is required to keep the `->` piping consistent. Prefer using `Belt.Array` if possible too.
 12. Basically only use `List`s for recursive data structures (better pattern matching in switch statements, more efficient etc.) or where immutability is crucial. Use `Array` otherwise. I.e.
 
@@ -34,4 +34,4 @@ let rec len = (myList: list<'a>) =>
 
 ## Other considerations:
 
-1. Prefer using uncurried functions over curried (i. e. _`reduceU` over `reduce`_ in Belt.List*)*, it will help the compiler to produce cleaner error messages in cases when there is a parameters mismatch, which happens quite often during refactoring. Another benefit is that it works faster.
+1. Prefer using uncurried functions over curried (i. e. _`reduceU` over `reduce`_ in Belt.List*)*, it will help the compiler to produce cleaner error messages in cases when there is a parameters mismatch, which happens quite often during refactoring. Another benefit is that it works faster. [Nice didn't know this]
